@@ -24,10 +24,20 @@ def process_audio_file(session_id, file_name):
 
     # set up session tokens and what not
     session = dialogflow_client.session_path(project_id, session_id)
+    print("Started new session with path: {}\n".format(session))
 
     # query DialogFlow for intent
     response = dialogflow_client.detect_intent(session=session, query_input=query_input, input_audio=input_audio)
+    print('=' * 20)
+    print('Query text: {}'.format(response.query_result.query_text))
+    print('Detected intent: {} (confidence: {})\n'.format(
+        response.query_result.intent.display_name,
+        response.query_result.intent_detection_confidence))
+    print('Fulfillment text: {}\n'.format(
+        response.query_result.fulfillment_text))
     return response
 
 
-process_audio_file("0", "/home/eric/Audio/mozilla_commonvoice/test_audio.mp3")
+
+print(process_audio_file("0", "/home/eric/Audio/mozilla_commonvoice/test_audio.mp3"))
+print(process_audio_file("1", "/home/eric/PycharmProjects/TrainTrack/src/resources/half_an_hour.wav"))
